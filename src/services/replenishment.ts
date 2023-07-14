@@ -3,7 +3,9 @@ import { api } from './api';
 
 export const getReplenishments = async (): Promise<Replenishment[]> => {
   const requestUrl = `/replenishments`;
-  const replenishments = await api<Replenishment[]>(requestUrl);
+  const replenishments = await api<Replenishment[]>(requestUrl, {
+    next: { revalidate: 0 }
+  });
 
   return replenishments;
 };
