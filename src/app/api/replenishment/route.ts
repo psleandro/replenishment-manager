@@ -1,7 +1,17 @@
 import { NextResponse } from 'next/server';
 import type { CreateReplenishment } from '~/@types';
 
-import { createReplenishment } from '~/api/modules/replenishment';
+import { createReplenishment, getReplenishments } from '~/api/modules/replenishment';
+
+export async function GET(){
+  try {
+    const replenishments = await getReplenishments();
+
+    return NextResponse.json(replenishments);
+  } catch (error) {
+    return NextResponse.error();
+  }
+}
 
 export async function POST(request: Request) {
   try {
