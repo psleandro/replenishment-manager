@@ -26,11 +26,12 @@ const ReplenishmentModal = ({ onCreate }: ReplenishmentModalProps) => {
 
   const { register, handleSubmit, reset } = useForm<CreateReplenishment>();
 
-  const handleCreateReplenishment = (
+  const handleCreateReplenishment = async (
     createReplenishmentDto: CreateReplenishment,
   ) => {
     try {
-      const replenishmentCreated = createReplenishment(createReplenishmentDto);
+
+      const replenishmentCreated = await createReplenishment(createReplenishmentDto);
 
       onCreate(replenishmentCreated);
       toggleReplenighmentModal();
