@@ -1,21 +1,21 @@
 import type { CreateReplenishment, Replenishment } from '~/@types';
+import { api } from './api';
 
 const replenishmentStorageKey = 'replenishmentList';
 
-export const getReplenishments = (): Replenishment[] => {
-  if (typeof window === 'undefined') return [];
+export const getReplenishments = async (): Promise<Replenishment[]> => {
+  const requestUrl = `/replenishments`;
+  const replenishments = await api<Replenishment[]>(requestUrl);
 
-  const stored = localStorage.getItem(replenishmentStorageKey);
-  const list = stored ? (JSON.parse(stored) as Replenishment[]) : [];
-
-  return list;
+  return replenishments;
 };
 
 export const createReplenishment = (replenishment: CreateReplenishment) => {
   if (typeof window === 'undefined')
     throw Error('Create replenishment only works in client side');
 
-  const currentReplenishments = getReplenishments();
+  const stored = localStorage.getItem(replenishmentStorageKey);
+  const currentReplenishments = stored ? (JSON.parse(stored) as Replenishment[]) : [];
 
   const randomId = crypto.randomUUID();
 
