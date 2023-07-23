@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import type { CreateReplenishment } from '~/@types';
-
 import { createReplenishment, getReplenishments } from '~/api/modules/replenishment';
+import { uploadAsset } from '~/api/modules/assets';
+import { validateCreateReplenishmentBody } from '~/api/validators';
 
 export async function GET(){
   try {
@@ -20,21 +20,31 @@ export async function POST(request: Request) {
       gallonsQuantity,
       cupsQuantity,
       date,
-    } = await request.json() as CreateReplenishment;
+      medias,
+    } = await validateCreateReplenishmentBody(request);
 
-    if (!sector || !gallonsQuantity || !cupsQuantity || !date) {
-      throw new Error("Informações de reposição enviadas incorretamente!");
-    };
+    const uploadedAssets = await Promise.all(
+      medias.map(media => uploadAsset(media))
+    );
+
+    const mediasIds = uploadedAssets.map(uploadedAsset => uploadedAsset.id);
 
     const createdReplenishment =  await createReplenishment({
       sector,
       gallonsQuantity,
       cupsQuantity,
       date,
+      medias: mediasIds,
     });
+
+    Object.assign(createdReplenishment, { medias: uploadedAssets });
 
     return NextResponse.json(createdReplenishment);
   } catch (error) {
+    if (error instanceof Error){
+      return NextResponse.json({ message: error.message, cause: error.cause }, { status: 500 });
+    }
+
     return NextResponse.error();
   }
 }

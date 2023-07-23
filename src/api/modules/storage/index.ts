@@ -3,6 +3,12 @@ import { parseStorageFileToPrivateAsset } from '~/api/factories/assetFactory';
 import { deleteFileFromTmpStorage, saveFileOnTmpStorage } from "../tmpStorage";
 import { PrivateAsset } from "~/@types";
 
+export const getAssetUrlFromAssetPath = (assetPath: string) => {
+  const filePublicUrl = storage.bucket().file(assetPath).publicUrl();
+
+  return filePublicUrl;
+}
+
 export const getFileFromStorage = async (path: string): Promise<PrivateAsset> => {
   const fileRef = storage.bucket().file(path);
   const [fileExists] = await fileRef.exists();
