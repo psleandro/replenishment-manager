@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { useForm } from 'react-hook-form';
 
-import type { CreateReplenishment, Replenishment } from '~/@types';
+import type { CreateReplenishmentDto, Replenishment } from '~/@types';
 import {
   Button,
   Dialog,
@@ -13,6 +13,7 @@ import {
   CardBody,
   CardFooter,
   Input,
+  InputImage,
 } from '~/components';
 import { createReplenishment } from '~/services/replenishment';
 
@@ -24,14 +25,15 @@ const ReplenishmentModal = ({ onCreate }: ReplenishmentModalProps) => {
   const [open, setOpen] = useState(false);
   const toggleReplenighmentModal = () => setOpen((v) => !v);
 
-  const { register, handleSubmit, reset } = useForm<CreateReplenishment>();
+  const { register, handleSubmit, reset } = useForm<CreateReplenishmentDto>();
 
   const handleCreateReplenishment = async (
-    createReplenishmentDto: CreateReplenishment,
+    createReplenishmentDto: CreateReplenishmentDto,
   ) => {
     try {
-
-      const replenishmentCreated = await createReplenishment(createReplenishmentDto);
+      const replenishmentCreated = await createReplenishment(
+        createReplenishmentDto,
+      );
 
       onCreate(replenishmentCreated);
       toggleReplenighmentModal();
@@ -80,6 +82,7 @@ const ReplenishmentModal = ({ onCreate }: ReplenishmentModalProps) => {
                 type="number"
                 {...register('cupsQuantity')}
               />
+              <InputImage {...register('medias')} />
             </CardBody>
             <CardFooter className=" t-0 flex gap-4">
               <Button

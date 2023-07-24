@@ -11,6 +11,7 @@ import {
   CardFooter,
   Input,
   Checkbox,
+  Tooltip,
 } from '@material-tailwind/react';
 
 export {
@@ -24,4 +25,5 @@ export {
   CardFooter,
   Input,
   Checkbox,
+  Tooltip,
 };
