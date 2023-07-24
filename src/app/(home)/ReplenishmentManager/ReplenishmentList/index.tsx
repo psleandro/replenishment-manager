@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 import type { Replenishment } from '~/@types';
 import { Card, Typography } from '~/components';
 
@@ -12,6 +14,7 @@ const tableHeads = [
   'Setor',
   'Quantidade de galões',
   'Quantidade de Copos',
+  'Imagens',
 ];
 
 const ReplenishmentList = ({ replenishments }: ReplenishmentListProps) => (
@@ -37,7 +40,10 @@ const ReplenishmentList = ({ replenishments }: ReplenishmentListProps) => (
       </thead>
       <tbody>
         {replenishments.map(
-          ({ id, date, sector, gallonsQuantity, cupsQuantity }, index) => {
+          (
+            { id, date, sector, gallonsQuantity, cupsQuantity, medias = [] },
+            index,
+          ) => {
             const isLast = index === replenishments.length - 1;
             const classes = isLast ? 'p-4' : 'p-4 border-b border-blue-gray-50';
 
@@ -78,6 +84,24 @@ const ReplenishmentList = ({ replenishments }: ReplenishmentListProps) => (
                   >
                     {cupsQuantity}
                   </Typography>
+                </td>
+                <td className={classes}>
+                  <div className="flex items-center space-x-1">
+                    {medias.map((media) => (
+                      <div
+                        key={media.id}
+                        className="relative h-[40px] w-[40px] rounded-md shadow-md"
+                      >
+                        <Image
+                          src={media.src}
+                          fill
+                          alt="test"
+                          className="rounded-md object-cover object-center"
+                          sizes="40px"
+                        />
+                      </div>
+                    ))}
+                  </div>
                 </td>
               </tr>
             );
