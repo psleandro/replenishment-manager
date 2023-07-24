@@ -1,8 +1,7 @@
 import { getApps, initializeApp, cert } from 'firebase-admin/app';
 import type { ServiceAccount } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
-import { getStorage } from "firebase-admin/storage";
-
+import { getStorage } from 'firebase-admin/storage';
 
 const credential: ServiceAccount = {
   projectId: process.env.PROJECT_ID,

@@ -1,4 +1,4 @@
-import { CreateReplenishmentDto } from "~/@types";
+import { CreateReplenishmentDto } from '~/@types';
 
 export const validateCreateReplenishmentBody = async (request: Request) => {
   try {
@@ -15,7 +15,7 @@ export const validateCreateReplenishmentBody = async (request: Request) => {
     const cupsQuantity = Number(formData.get('cupsQuantity')) as number;
     const date = formData.get('date') as string;
 
-    if(!sector || !gallonsQuantity || !cupsQuantity || !date) {
+    if (!sector || !gallonsQuantity || !cupsQuantity || !date) {
       throw new Error('Informações de reposição enviadas incorretamente!');
     }
 
@@ -25,7 +25,7 @@ export const validateCreateReplenishmentBody = async (request: Request) => {
       cupsQuantity,
       date,
       medias,
-    }
+    };
 
     return createReplenishmentDto;
   } catch (error: any) {

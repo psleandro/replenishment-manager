@@ -12,7 +12,9 @@ interface ReplenishmentManagerProps {
   initialReplenishments: Replenishment[];
 }
 
-const ReplenishmentManager = ({ initialReplenishments }: ReplenishmentManagerProps) => {
+const ReplenishmentManager = ({
+  initialReplenishments,
+}: ReplenishmentManagerProps) => {
   const [replenishments, setReplenishments] = useState<Replenishment[]>(
     initialReplenishments,
   );
@@ -38,7 +40,6 @@ const ReplenishmentManager = ({ initialReplenishments }: ReplenishmentManagerPro
       <ReplenishmentList replenishments={replenishments} />
     </>
   );
-}
+};
 
-
-export { ReplenishmentManager }
+export { ReplenishmentManager };

@@ -1,6 +1,8 @@
-import type { PrivateAsset } from "~/@types";
+import type { PrivateAsset } from '~/@types';
 
-export const parseStorageFileToPrivateAsset = (storageFile: any): PrivateAsset => ({
+export const parseStorageFileToPrivateAsset = (
+  storageFile: any,
+): PrivateAsset => ({
   id: storageFile.id,
   name: storageFile.name,
   path: storageFile.path,
@@ -9,4 +11,4 @@ export const parseStorageFileToPrivateAsset = (storageFile: any): PrivateAsset =
   contentType: storageFile.contentType,
   createdAt: storageFile.timeCreated,
   updatedAt: storageFile.updated,
-})
+});

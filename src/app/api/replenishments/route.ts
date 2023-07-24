@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
-import { createReplenishment, getReplenishments } from '~/api/modules/replenishment';
+
 import { uploadAsset } from '~/api/modules/assets';
+import {
+  createReplenishment,
+  getReplenishments,
+} from '~/api/modules/replenishment';
 import { validateCreateReplenishmentBody } from '~/api/validators';
 
-export async function GET(){
+export async function GET() {
   try {
     const replenishments = await getReplenishments();
 
@@ -15,21 +19,16 @@ export async function GET(){
 
 export async function POST(request: Request) {
   try {
-    const {
-      sector,
-      gallonsQuantity,
-      cupsQuantity,
-      date,
-      medias,
-    } = await validateCreateReplenishmentBody(request);
+    const { sector, gallonsQuantity, cupsQuantity, date, medias } =
+      await validateCreateReplenishmentBody(request);
 
     const uploadedAssets = await Promise.all(
-      medias.map(media => uploadAsset(media))
+      medias.map((media) => uploadAsset(media)),
     );
 
-    const mediasIds = uploadedAssets.map(uploadedAsset => uploadedAsset.id);
+    const mediasIds = uploadedAssets.map((uploadedAsset) => uploadedAsset.id);
 
-    const createdReplenishment =  await createReplenishment({
+    const createdReplenishment = await createReplenishment({
       sector,
       gallonsQuantity,
       cupsQuantity,
@@ -41,8 +40,11 @@ export async function POST(request: Request) {
 
     return NextResponse.json(createdReplenishment);
   } catch (error) {
-    if (error instanceof Error){
-      return NextResponse.json({ message: error.message, cause: error.cause }, { status: 500 });
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { message: error.message, cause: error.cause },
+        { status: 500 },
+      );
     }
 
     return NextResponse.error();
